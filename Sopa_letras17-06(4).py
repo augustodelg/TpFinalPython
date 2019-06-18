@@ -1,12 +1,17 @@
 import PySimpleGUI as sg
 import random
 import string
-import numpy as np
+import sys
 
 BOX_SIZE=25
 matriz=[]#Matriz de nombres de las figuras
 matriz2=[]#Matriz de si esta pintado o no
 matriz3=[]#Matriz del color al cual tiene q cambiar esa cordenada al ser seleccionada
+
+LOGO="./IMAGENES/logosopa.png"
+JUGAR="./IMAGENES/jugar.png"
+CANCELAR="./IMAGENES/cancelar.png"
+DECORACION="./IMAGENES/logo_decoracion.png"
 
 def insertar_palabra(col,row,palabra,color):
     colI=col
@@ -20,9 +25,10 @@ def insertar_palabra(col,row,palabra,color):
     
 def mayor_palabra(palabras):
     max=-1
-    for a in palabras:
-        if len(a)>max:
-            max=len(a)
+    for lis in palabras:
+        for a in lis:
+            if len(a)>max:
+                max=len(a)
     return max
 
 def palabras_en_la_linea(coordenadas,x_o_y):
@@ -31,27 +37,65 @@ def palabras_en_la_linea(coordenadas,x_o_y):
             return True
     return False
 #----------------------------CONFIGURACION---------------------------
-config =  [ 
-            [sg.Text('CONFIGURACION')],
-            [sg.Text('QUE CONFIGURACION DE PALABRAS DESEA?')],
-            [sg.InputCombo(['4 sustantivos, 3 verbos y 3 adjetivos','6 verbos, 3 sustantivos y 0 adjetivos'],key="con_palabras")],
-            [sg.Text('ORIENTACION DE LAS PALABRAS:'), sg.InputCombo(['HORIZONTAL','VERTICAL'],key="orientacion")],
-            [sg.Text('FORMA DE LETRAS'), sg.InputCombo(['MAYUSCULAS','MINUSCULAS'],key= "may_o_min")],
-            [ sg.Submit(), sg.Cancel()]	,
+config =  [ [sg.T(' '),sg.Image(LOGO)],
+            [sg.T(' '  * 45),sg.Text('OPCIONES DE PALABRAS',font="Bahnschrift",background_color='#C6C6C6')],
+            [sg.T(' '  * 28),sg.InputText('',size=(40, 12),key='palabra_agregar'),sg.Button('Agregar',font="Bahnschrift")],
+            [sg.T(' '  * 30)],
+            [sg.Listbox(values=[], size=(50, 10),key='lbox',font="Bahnschrift"),sg.Button('Eliminar',font="Bahnschrift",size=(10,5))],
+            [sg.T(' '  * 30)],
+            [sg.T(' '  * 35),sg.Text('SUSTANTIVOS    -',font="Bahnschrift"),sg.Text('CANT:',font="Bahnschrift"), sg.InputCombo([0,1,2,3,4,5,6],key="cant_sustantivos",font="Bahnschrift"),sg.ColorChooserButton('COLOR',key='color_sustantivos')],
+            [sg.T(' '  * 35),sg.Text('VERBO    -',font="Bahnschrift"),sg.Text('CANT:',font="Bahnschrift"), sg.InputCombo([0,1,2,3,4,5,6],key="cant_verbos",font="Bahnschrift"),sg.ColorChooserButton('COLOR',key='color_verbos')],
+            [sg.T(' '  * 35),sg.Text('ADJETIVOS    -',font="Bahnschrift"),sg.Text('CANT:',font="Bahnschrift"), sg.InputCombo([0,1,2,3,4,5,6],key="cant_adjetivos",font="Bahnschrift"),sg.ColorChooserButton('COLOR',key='color_adjetivos')],
+            [sg.T(' '  * 30)],
+            [sg.T(' '  * 25),sg.Text('ORIENTACION DE LAS PALABRAS:',font="Bahnschrift"), sg.InputCombo(['HORIZONTAL','VERTICAL'],key="orientacion",font="Bahnschrift")],
+            [sg.T(' '  * 25),sg.Text('QUE TIPO DE AYUDA DESEA DAR?:',font="Bahnschrift"), sg.InputCombo(['DEFINICIONES','LISTA DE PALABRAS'],key="ayuda",font="Bahnschrift",size=(5,5))],
+            [sg.T(' '  * 30)],
+            [sg.T(' '  * 50),sg.Text('FORMA DE LETRAS ',font="Bahnschrift",background_color='#C6C6C6')], 
+            [sg.T(' '  * 35),sg.Text('FUENTE: ',font="Bahnschrift"),sg.InputCombo(['Arial','Bahnschrift'],key="fuente") ,sg.InputCombo(['MAYUSCULAS','MINUSCULAS'],key= "may_o_min")],
+            [sg.T(' '  * 30)],
+            [sg.T(' '  * 2),sg.RButton('',button_color=sg.TRANSPARENT_BUTTON,image_filename=JUGAR, image_subsample=2, border_width=0,key='jugar'),sg.T(' '  * 3),sg.RButton('',image_filename=CANCELAR,button_color=sg.TRANSPARENT_BUTTON, image_subsample=2, border_width=0,key="cancelar")],
+            [sg.T(' '  * 30)],
             ]
-window2 = sg.Window('SOPA DE LETRAS').Layout(config)
-event, configuracion = window2.Read()
+windowC = sg.Window('SOPA DE LETRAS', config, grab_anywhere=True).Finalize() 
+lista_palabras=[]
+lbox=windowC.Element('lbox')
+while True:
+    eventC, configuracion = windowC.Read()
+    if(eventC=='Agregar'):
+        palabra=configuracion['palabra_agregar']
+        lista_palabras.append(palabra)
+        print(palabra)
+        print(lbox.GetListValues())
+        #configuracion['listado_palabras'].Update(value=configuracion['listado_palabras'].append(palabra))
+        aux=lbox.GetListValues()
+        if (not palabra in aux):#SI YA EXISTE LA PALABRA NO LA AGREGO
+            aux.append(palabra)
+            lbox.Update(aux)
+    if(eventC=='Eliminar'):
+        a_eliminar=configuracion["lbox"][0]
+        aux=lbox.GetListValues()
+        aux.remove(a_eliminar)
+        lbox.Update(aux)
+    if(eventC=='cancelar'):
+        sys.exit()
+    if (eventC=='jugar'):
+        break
+
 
 # -------------------------------------------------------------------  
 
 # ------------------------ VAR --------------------------------------  
 
 colores={'Sustantivos':"red",'Verbo':"green" ,'Adjetivos':"purple"}
-cant_palabras={'Sustantivos':0,'Verbos':0 ,'Adjetivos':0}
-palabras={'Sustantivos':["TOMATE","MINERVA","MANZANA"],'Verbo':["LAPUTAQLOPARIO"]}
-tamaño_max=mayor_palabra(palabras)
-print(tamaño_max)
-cant_ubicaciones=int(tamaño_max)+4#tiene q serel canta de las palabras
+cant_palabras={'Sustantivos':0,'Verbos':0 ,'Adjetivos':0}#DESPUES DE FILTRAR SE CUANTOS HAY REALMENTE
+palabras={'Sustantivos':["TOMATE","MINERVA","MANZANA"],'Verbo':["CORRER","SALTAR"]}
+tamaño_max=mayor_palabra(list(palabras.values()))
+nume_palabras=0
+for lis in list(palabras.values()):
+    for a in lis:
+        nume_palabras+=1
+
+cant_ubicaciones=int(tamaño_max)+nume_palabras#tiene q serel canta de las palabras
 print(cant_ubicaciones)
 
 # ------------------------ VAR -------------------------------------- 
@@ -59,31 +103,44 @@ print(cant_ubicaciones)
 #------------------------------SOPA DE LETRAS------------------------
 
 sin_ayuda = [
-			[sg.Text("Sustantivos:",text_color=colores['Sustantivos'],font='Bahnschrift 10',background_color='#E6E6E6'),sg.Text(cant_palabras["Sustantivos"],font='Bahnschrift 10')],
-            [sg.Text("Verbos:",text_color=colores['Verbo'],font='Bahnschrift 10',background_color='#E6E6E6'),sg.Text(cant_palabras["Verbos"],font='Bahnschrift 10')],
-			[sg.Text("Adjetivos:",text_color=colores['Adjetivos'],font='Bahnschrift 10',background_color='#E6E6E6'),sg.Text(cant_palabras["Adjetivos"],font='Bahnschrift 10')],
+            [sg.Image(DECORACION,size=(100,100))],
+			[sg.Text("Sustantivos:",text_color=configuracion['color_sustantivos'],font='Bahnschrift 10',background_color='#E6E6E6'),sg.Text(cant_palabras["Sustantivos"],font='Bahnschrift 10')],
+            [sg.Text("Verbos:",text_color=configuracion['color_verbos'],font='Bahnschrift 10',background_color='#E6E6E6'),sg.Text(cant_palabras["Verbos"],font='Bahnschrift 10')],
+			[sg.Text("Adjetivos:",text_color=configuracion['color_adjetivos'],font='Bahnschrift 10',background_color='#E6E6E6'),sg.Text(cant_palabras["Adjetivos"],font='Bahnschrift 10')],
 			
 			]
 
-ayuda1 = [[sg.Text('Descripcion de palabras:')],
-        [sg.Text('Descripcion de palabras:')]
+'''ayuda1 = [[sg.Text('INFORMACION DE AYUDA:')]],
+        [[sg.Multiline('', size=(45,10),key="info_ayuda")]],
+        ]'''
+
+sopa = [
+        [sg.Graph(canvas_size=(cant_ubicaciones*38, cant_ubicaciones*38), graph_bottom_left=(0,cant_ubicaciones*26), graph_top_right=(cant_ubicaciones*26,0), change_submits=True, drag_submits=False,background_color='white', key='graph', tooltip='SELECCIONE LAS LETRAS QUE CONFORMAN LAS PALABRAS!!')],
+        [sg.T(' '  * 30)],
+        [sg.Button('Controlar',font='Bahnschrift 10',size=(20,3))],
         ]
 
-sopa = [[sg.Graph(canvas_size=(cant_ubicaciones*38, cant_ubicaciones*38), graph_bottom_left=(0,cant_ubicaciones*26), graph_top_right=(cant_ubicaciones*26,0), change_submits=True, drag_submits=False,background_color='white', key='graph', tooltip='SELECCIONE LAS LETRAS QUE CONFORMAN LAS PALABRAS!!')],
-        [sg.Button('Controlar')]] 
+if (sg.PopupYesNo('QUIERE LAS AYUDAS?')=='Yes'):
+    sopa.append([sg.Text('INFORMACION DE AYUDA:',font='Bahnschrift 10')],)
+    sopa.append([sg.Multiline('', size=(80,10),key="info_ayuda")],)   
+    sopa.append([sg.T(' '  * 30)])    
 
 layout = [ 
 			[sg.Column(sopa), sg.Column(sin_ayuda)],		
          ]   
 
+
+
 window = sg.Window('SOPA DE LETRAS', layout, grab_anywhere=True).Finalize()    
+
+
+
+
 g = window.Element('graph')
 #graph.DrawRectangle(top_left=[tamaño_max*-17,tamaño_max*30], bottom_right=[10,50], fill_color="white", line_color="black")
 
 #------------------------------SOPA DE LETRAS------------------------
 
-'''matriz=[[[0]] * tamaño_max for i in range(cant_ubicaciones)]
-matriz2=[[[0]] * tamaño_max for i in range(cant_ubicaciones)]'''
 for i in range(cant_ubicaciones):
     matriz.append([0]*cant_ubicaciones)
     matriz2.append([False]*cant_ubicaciones) 
@@ -163,6 +220,8 @@ for tipo in palabras.keys():
                     X=random.randint(0,tamaño_max)
                     Y=random.randint(0,tamaño_max)
 
+#-----------------------LETRAS ALEATOREAS--------------------------------------------------------------
+
 for row in range(cant_ubicaciones):
     for col in range(cant_ubicaciones):
         if(configuracion['orientacion']== "HORIZONTAL"):
@@ -171,6 +230,7 @@ for row in range(cant_ubicaciones):
         else:
             if(matriz3[row][col] == "white"):
                     g.DrawText(random.choice(string.ascii_uppercase) , (row * BOX_SIZE + 18, col * BOX_SIZE + 17),font='Bahnschrift 20')
+
 #-------------------------ECRIBIR PALABRA-----------------------------------------------
 
 #g.DrawText(random.choice(string.ascii_uppercase) , (col * BOX_SIZE + 18, row * BOX_SIZE + 17),font='Bahnschrift 20')
