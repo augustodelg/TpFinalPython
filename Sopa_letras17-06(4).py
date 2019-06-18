@@ -33,31 +33,54 @@ def palabras_en_la_linea(coordenadas,x_o_y):
 #----------------------------CONFIGURACION---------------------------
 config =  [ 
             [sg.Text('CONFIGURACION')],
-			[sg.Text('QUE CONFIGURACION DE PALABRAS DESEA?')],
+            [sg.Text('QUE CONFIGURACION DE PALABRAS DESEA?')],
             [sg.InputCombo(['4 sustantivos, 3 verbos y 3 adjetivos','6 verbos, 3 sustantivos y 0 adjetivos'],key="con_palabras")],
             [sg.Text('ORIENTACION DE LAS PALABRAS:'), sg.InputCombo(['HORIZONTAL','VERTICAL'],key="orientacion")],
             [sg.Text('FORMA DE LETRAS'), sg.InputCombo(['MAYUSCULAS','MINUSCULAS'],key= "may_o_min")],
             [ sg.Submit(), sg.Cancel()]	,
-			]
+            ]
 window2 = sg.Window('SOPA DE LETRAS').Layout(config)
 event, configuracion = window2.Read()
 
 # -------------------------------------------------------------------  
 
+# ------------------------ VAR --------------------------------------  
 
 colores={'Sustantivos':"red",'Verbo':"green" ,'Adjetivos':"purple"}
-cant_palabras={'Sustantivos':0,'Verbo':0 ,'Adjetivos':0}
+cant_palabras={'Sustantivos':0,'Verbos':0 ,'Adjetivos':0}
 palabras={'Sustantivos':["TOMATE","MINERVA","MANZANA"],'Verbo':["LAPUTAQLOPARIO"]}
 tamaño_max=mayor_palabra(palabras)
 print(tamaño_max)
 cant_ubicaciones=int(tamaño_max)+4#tiene q serel canta de las palabras
 print(cant_ubicaciones)
-layout = [[sg.Graph(canvas_size=(cant_ubicaciones*38, cant_ubicaciones*38), graph_bottom_left=(0,cant_ubicaciones*26), graph_top_right=(cant_ubicaciones*26,0), change_submits=True, drag_submits=False,background_color='white', key='graph', tooltip='SELECCIONE LAS LETRAS QUE CONFORMAN LAS PALABRAS!!')],
-        [sg.Button('Controlar')]]    
 
-window = sg.Window('Graph of Sine Function', layout, grab_anywhere=True).Finalize()    
+# ------------------------ VAR -------------------------------------- 
+
+#------------------------------SOPA DE LETRAS------------------------
+
+sin_ayuda = [
+			[sg.Text("Sustantivos:",text_color=colores['Sustantivos'],font='Bahnschrift 10',background_color='#E6E6E6'),sg.Text(cant_palabras["Sustantivos"],font='Bahnschrift 10')],
+            [sg.Text("Verbos:",text_color=colores['Verbo'],font='Bahnschrift 10',background_color='#E6E6E6'),sg.Text(cant_palabras["Verbos"],font='Bahnschrift 10')],
+			[sg.Text("Adjetivos:",text_color=colores['Adjetivos'],font='Bahnschrift 10',background_color='#E6E6E6'),sg.Text(cant_palabras["Adjetivos"],font='Bahnschrift 10')],
+			
+			]
+
+ayuda1 = [[sg.Text('Descripcion de palabras:')],
+        [sg.Text('Descripcion de palabras:')]
+        ]
+
+sopa = [[sg.Graph(canvas_size=(cant_ubicaciones*38, cant_ubicaciones*38), graph_bottom_left=(0,cant_ubicaciones*26), graph_top_right=(cant_ubicaciones*26,0), change_submits=True, drag_submits=False,background_color='white', key='graph', tooltip='SELECCIONE LAS LETRAS QUE CONFORMAN LAS PALABRAS!!')],
+        [sg.Button('Controlar')]] 
+
+layout = [ 
+			[sg.Column(sopa), sg.Column(sin_ayuda)],		
+         ]   
+
+window = sg.Window('SOPA DE LETRAS', layout, grab_anywhere=True).Finalize()    
 g = window.Element('graph')
 #graph.DrawRectangle(top_left=[tamaño_max*-17,tamaño_max*30], bottom_right=[10,50], fill_color="white", line_color="black")
+
+#------------------------------SOPA DE LETRAS------------------------
 
 '''matriz=[[[0]] * tamaño_max for i in range(cant_ubicaciones)]
 matriz2=[[[0]] * tamaño_max for i in range(cant_ubicaciones)]'''
@@ -139,6 +162,15 @@ for tipo in palabras.keys():
                     print('ENTRE AL ELSE')
                     X=random.randint(0,tamaño_max)
                     Y=random.randint(0,tamaño_max)
+
+for row in range(cant_ubicaciones):
+    for col in range(cant_ubicaciones):
+        if(configuracion['orientacion']== "HORIZONTAL"):
+                if(matriz3[col][row] == "white"):
+                    g.DrawText(random.choice(string.ascii_uppercase) , (col * BOX_SIZE + 18, row * BOX_SIZE + 17),font='Bahnschrift 20')
+        else:
+            if(matriz3[row][col] == "white"):
+                    g.DrawText(random.choice(string.ascii_uppercase) , (row * BOX_SIZE + 18, col * BOX_SIZE + 17),font='Bahnschrift 20')
 #-------------------------ECRIBIR PALABRA-----------------------------------------------
 
 #g.DrawText(random.choice(string.ascii_uppercase) , (col * BOX_SIZE + 18, row * BOX_SIZE + 17),font='Bahnschrift 20')
@@ -175,6 +207,21 @@ while True:             # Event Loop
                 g.TKCanvas.itemconfig(matriz[box_x][box_y], fill='white')
                 matriz2[box_x][box_y] = False
                 #print(g.TKFrame(matriz[box_x][box_y], fill_color))
+        elif (event=="Controlar"):
+             sg.Popup('TUS PALABRAS/LETRAS FALTANTES VAN A SER MARCADAS EN GRIS!')
+             print(lista_coor_palabras)
+             for cor in lista_coor_palabras:
+                y=cor[0]
+                for x in cor[1]:
+                    if  not(matriz2[x][y]):
+                        print('NO ESTA MARCADO')
+                        if(configuracion['orientacion']== "HORIZONTAL"):
+                            g.TKCanvas.itemconfig(matriz[x][y], fill='#C5C6C5')
+                        else:
+                            g.TKCanvas.itemconfig(matriz[y][x], fill='#C5C6C5')
+                    else:
+                        print('Esta marcado')
+                
             #g.DrawRectangle((box_x * BOX_SIZE + 5, box_y * BOX_SIZE + 3),(box_x * BOX_SIZE + BOX_SIZE + 5, box_y * BOX_SIZE + BOX_SIZE + 3) ,fill_color='#CFF5E3', line_color='black')
     except(IndexError):
         continue
