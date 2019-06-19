@@ -3,6 +3,7 @@ import random
 import string
 import sys
 import json
+import Validador_palabra 
 
 BOX_SIZE=25
 matriz=[]#Matriz de nombres de las figuras
@@ -14,15 +15,6 @@ JUGAR="./IMAGENES/jugar.png"
 CANCELAR="./IMAGENES/cancelar.png"
 DECORACION="./IMAGENES/logo_decoracion.png"
 
-def insertar_palabra(col,row,palabra,color):
-    colI=col
-    rowI=row
-    for letra in palabra:
-            print("LUGAR DE IMPRESION = COL" +str(colI)+ "  ROW "+str(rowI) )
-            g.DrawText(letra , (colI * BOX_SIZE + 18, rowI * BOX_SIZE + 17),font="Bahnschrift 20")
-            print(colores[color])
-            matriz3[colI][rowI]=colores[color]
-            colI+=1
     
 def mayor_palabra(palabras):
     max=-1
@@ -86,7 +78,9 @@ while True:
         eventC, configuracion = windowC.Read()
         if(eventC=="Agregar"):
             palabra=configuracion["palabra_agregar"]
-            #ENVIAR PALABRA A ANALIZAR
+            resul=Validador_palabra.validar_palabra(palabra)
+            print(resul)
+            input()
             ''' if( es palabra valida):
                     agregar al diccionario la palabra 
                 else:

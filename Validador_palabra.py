@@ -4,7 +4,7 @@ import PySimpleGUI as sg
 import json
 import os
 from pattern.web import Wiktionary
-from pattern.en import parse,split
+from pattern.es import parse,split
 
 
 def validar_palabra(word):
