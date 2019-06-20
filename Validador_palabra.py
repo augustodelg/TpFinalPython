@@ -13,6 +13,10 @@ def validar_palabra(word):
         y el segundo es un diccionario donde la clave es la palabra, y el
         valor es la definicion   '''
     lis_resultados = [None,None] #lista a retornar.
+    if (not word.isalpha()):
+        sg.PopupError('Lo ingresado no es válido. Ingrese solo palabras, por favor')
+        lis_resultados[0]=False
+        return (lis_resultados)
     lis_tipo_validos = ["sustantivo","adjetivo","verbo"]
     wik = Wiktionary(language="es")
     valida = False
