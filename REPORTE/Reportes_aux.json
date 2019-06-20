@@ -22,5 +22,14 @@
     },
     {
         "ceular": "La palabra no es valida, ya que ningun criterio de busqueda pudo determinarla"
+    },
+    {
+        "anaconda": "La palabra no es valida, ya que ningun criterio de busqueda pudo determinarla"
+    },
+    {
+        "corrida": "La palabra es valida, sin embargo algunos criterios de busqueda pudieron diferir"
+    },
+    {
+        "poncho": "La palabra es valida, sin embargo algunos criterios de busqueda pudieron diferir"
     }
 ]

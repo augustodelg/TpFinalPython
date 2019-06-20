@@ -18,7 +18,7 @@ REPORTE="./REPORTE/Reportes_aux.json"
 
     
 def mayor_palabra(palabras):
-	'''Retorna la longitud de la palabra mas grande de todas las palabras validadas '''
+    '''Retorna la longitud de la palabra mas grande de todas las palabras validadas '''
     max=-1
     for lis in palabras:
         for a in lis:
@@ -27,14 +27,14 @@ def mayor_palabra(palabras):
     return max
 
 def palabras_en_la_linea(coordenadas,x_o_y):
-	'''Retorna true o false, si hay una palabra en una determinada fila o una determinada columna '''
+    '''Retorna true o false, si hay una palabra en una determinada fila o una determinada columna '''
     for c in coordenadas:
         if c[0]== x_o_y:
             return True
     return False
 
 def interpretar_reporte(fuente,fuente2):
-	'''Analiza el archivo .json de reportes para mostrarlo en pantalla '''
+    '''Analiza el archivo .json de reportes para mostrarlo en pantalla '''
     arch=open("./REPORTE/Reportes_aux.json")
     data= json.load(arch)   
     tx='\n'
@@ -89,7 +89,7 @@ while True:
     try:
         eventC, configuracion = windowC.Read()
         if(eventC=="Agregar"):
-            sg.Popup('Procesando palabra... esto podria tardar unos segundos .Presione OK para continuar')
+            sg.Popup('Procesando palabra... esto podria tardar unos segundos.   Presione OK para continuar',no_titlebar=True,auto_close_duration=4)
             palabra=configuracion["palabra_agregar"]
             resul=Validador_palabra.validar_palabra(palabra.lower())
             if(resul[0]== True):
@@ -153,7 +153,7 @@ sopa = [
         [sg.Button("Controlar",font="Trebuchet 10",size=(20,3))],
         ]
 
-if (sg.PopupYesNo("QUIERE LAS AYUDAS?")=="Yes"):
+if (sg.PopupYesNo("QUIERE LAS AYUDAS?",no_titlebar=True)=="Yes"):
     sin_ayuda.append([sg.Text("INFORMACION DE AYUDA:",font="Trebuchet 10")],)
     texto=""
     for t in palabras.keys():
@@ -172,7 +172,7 @@ layout = [
 
 
 
-window = sg.Window("SOPA DE LETRAS", layout, grab_anywhere=True).Finalize()    
+window = sg.Window("SOPA DE LETRAS", layout).Finalize()    
 
 
 
@@ -301,7 +301,10 @@ while True:             # Event Loop
                             g.TKCanvas.itemconfig(matriz[x][y], fill="#C5C6C5")
                         else:
                             g.TKCanvas.itemconfig(matriz[y][x], fill="#C5C6C5")
-            #g.DrawRectangle((box_x * BOX_SIZE + 5, box_y * BOX_SIZE + 3),(box_x * BOX_SIZE + BOX_SIZE + 5, box_y * BOX_SIZE + BOX_SIZE + 3) ,fill_color='#CFF5E3', line_color='black')
+             break
+          
     except(IndexError):
         continue
+
+sg.Popup('Gracias por jugar :D',font=configuracion["fuente"]+ " 20",no_titlebar=True,auto_close_duration=4)
 window.Close()

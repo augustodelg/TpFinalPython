@@ -101,11 +101,11 @@ def buscar_definicion(word,texto):
 def generar_reporte(palabra,motivo):
     ''' Agrega palabras a un reporte; en caso de que los criterios de busqueda
         no coincidan o que no se haya encontrado la palabra bajo ningun criterio, inclusive por la validacion del usuario'''
-     if os.path.isfile('./REPORTE/Reportes_aux.json')==False or (os.path.getsize('./REPORTE/Reportes_aux.json')==0):
+    if os.path.isfile('./REPORTE/Reportes_aux.json')==False or (os.path.getsize('./REPORTE/Reportes_aux.json')==0):
          with open("./REPORTE/Reportes_aux.json", "w") as jsonFile:
              datos = [{palabra:motivo}]
              json.dump(datos, jsonFile,indent=4)
-     else:
+    else:
          with open("./REPORTE/Reportes_aux.json", "r+") as jsonFile:
              data = json.load(jsonFile)
              data.append({palabra:motivo})
