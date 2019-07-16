@@ -54,8 +54,8 @@ Ahora bien, con esto configurado, apretamos en el boton "JUGAR" donde tendremos 
 
 ### Juego con la Sopa 🔩
 _En este momento, es donde empieza el verdadero juego. El jugador debe ir clickeando en las letras que cree que van conformando alguna de las palabras buscadas. Estas se iran resaltando con el color elegido antes en configuración. 
-En el lado derecho, vemos la cantidad de palabras que debemos buscar de cada tipo, y la cantidad de intentos que tenemos para verificar nuestro resultado. Es decir, cada vez que creemos haber terminado, apretamos en "Controlar", donde se verificará si lo que hicimos es correcto. Finalmente abajo a la derecha tenemos la ayuda quer hayamos elegido, o sea las definiciones de las palabras, o las mismas palabras a buscar._
-
+En el lado derecho, vemos la cantidad de palabras que debemos buscar de cada tipo, y la cantidad de intentos que tenemos para verificar nuestro resultado. Es decir, cada vez que creemos haber terminado, apretamos en "Controlar", donde se verificará si lo que hicimos es correcto. Posteriormente, abajo a la derecha tenemos la ayuda quer hayamos elegido, o sea las definiciones de las palabras, o las mismas palabras a buscar.
+Finalmente, obtendremos el resultado de nuestro juego, ya sea por haber utilizado los tres intentos, o por haber ganado antes._
 
 
 ## Construido con 🛠️
