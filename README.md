@@ -22,16 +22,16 @@ _En primera instancia, necesitamos contar con el intérprete de python3. Posible
 sudo  apt install python3.7
 ```
 
-_Ahora instalaremos el mòdulo PySimpleGUI. Antes, necesitaremos instalar la librería tkinter desde la pagina oficial: https://pypi.org/project/PySimpleGUI/ . Ahora si, instalamos el modulo deseado:  _
+_Ahora instalaremos el mòdulo PySimpleGUI. Antes, necesitaremos instalar la librería tkinter desde la pagina oficial: https://pypi.org/project/PySimpleGUI/ . Ahora si, instalamos el modulo deseado:_
 
 ```
 sudo pip3 install PySimpleGUI
 ```
-_Finalmente instalamos la librería Pattern: _
+_Finalmente instalamos la librería Pattern:_
 ```
 sudo pip3 install pattern
 ```
-_Podríamos llegar a obtener un error asociado a mysql. Esto lo solucionaremos con dos lineas ejecutadas consecutivamente: _
+_Podríamos llegar a obtener un error asociado a mysql. Esto lo solucionaremos con dos lineas ejecutadas consecutivamente:_
 
 ```
 sudo apt-get install mysql-server
@@ -50,11 +50,11 @@ _Una vez abierta la aplicaciòn, procederemos a realizar algunas pruebas sencill
 Por otro lado, podemos jugar sin la necesidad de la opcion antes mencionada. Este proceso consiste en ir ingresando palabras que se iran chequendo vía online en "Wiktionary" y en "pattern.es", donde obtendremos su tipo gramatical junto con su definición del primero. Para hacer esto, basta con ingresar la palabra deseada debajo de "opciones de palabras" y pulsar "Agregar". A medida que se van validando las palabras, se van agregando en la seccion que se encuentra debajo.
 Una vez que hayamos las palabras que deseamos, vamos hacia el lado derecho para configurar el color con el que se identificara posteriormente cada palabra (de acuerdo a su tipo). Ademas, podemos aclarar de antemano la cantidad de cada tipo con las que vamos a jugar. Finalmente, configuramos como deseamos que se encuentren orientadas las palabras (vertical u horizontal) y la fuente de la sopa.
 Cabe destacar que hay dos botones mas, uno identificado con ("?") que nos da una pequeña guia para poder jugar, y otro llamado "Ver Reporte" que consiste en un archivo .json con las palabras con las que haya ocurrido algo en particular durante su validación web(ya sea que no se haya encontrado ni en wik ni en pattern, o que estos criterios hayan diferido en el tipo gramatical de la palabra. En este caso se reporta, y nos quedamos con lo dado por wik).
-Ahora bien, con esto configurado, apretamos en el boton "JUGAR" donde tendremos una ventana nueva para jugar nuestra sopa de letras.
+Ahora bien, con esto configurado, apretamos en el boton "JUGAR" donde tendremos una ventana nueva para jugar nuestra sopa de letras._
 
 ### Juego con la Sopa 🔩
 _En este momento, es donde empieza el verdadero juego. El jugador debe ir clickeando en las letras que cree que van conformando alguna de las palabras buscadas. Estas se iran resaltando con el color elegido antes en configuración. 
-En el lado derecho, vemos la cantidad de palabras que debemos buscar de cada tipo, y la cantidad de intentos que tenemos para verificar nuestro resultado. Es decir, cada vez que creemos haber terminado, apretamos en "Controlar", donde se verificará si lo que hicimos es correcto. Finalmente abajo a la derecha tenemos la ayuda quer hayamos elegido, o sea las definiciones de las palabras, o las mismas palabras a buscar. _
+En el lado derecho, vemos la cantidad de palabras que debemos buscar de cada tipo, y la cantidad de intentos que tenemos para verificar nuestro resultado. Es decir, cada vez que creemos haber terminado, apretamos en "Controlar", donde se verificará si lo que hicimos es correcto. Finalmente abajo a la derecha tenemos la ayuda quer hayamos elegido, o sea las definiciones de las palabras, o las mismas palabras a buscar._
 
 
 
