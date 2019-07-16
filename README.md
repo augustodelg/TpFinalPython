@@ -1,6 +1,6 @@
- Sopa de Letras en Python
+ # Sopa de Letras en Python
 
-_Este proyecto consiste en una simple aplicación destinada, principalmente, a niños que se encuentren cursando la etapa primaria del colegio. Ésta aplicación se trata de una sopa de letras en la que se pueden buscar palabras de acuerdo a su tipo gramatical (sustantivos,adjetivos,verbos) contando tambien con distintos tipos de ayudas que vayan ayudando a los participantes en el proceso del juego, como ser, las palabras mismas a buscar, o las definiciones de dichas palabras, en las que se profundizará mas adelante. _
+_Este proyecto consiste en una simple aplicación destinada, principalmente, a niños que se encuentren cursando la etapa primaria del colegio. Ésta aplicación se trata de una sopa de letras en la que se pueden buscar palabras de acuerdo a su tipo gramatical (sustantivos,adjetivos,verbos) contando tambien con distintos tipos de ayudas que vayan ayudando a los participantes en el proceso del juego, como ser, las palabras mismas a buscar, o las definiciones de dichas palabras, en las que se profundizará mas adelante._ 
 
 ## Comenzando 🚀
 
@@ -8,11 +8,11 @@ _Estas instrucciones te permitirán obtener una copia del proyecto en funcionami
 
 ### Pre-requisitos 📋
 
-_Antes que nada, es ideal clonar el repositorio de este proyecto para poder ejectuar pruebas mas adelante:
+_Antes que nada, es ideal clonar el repositorio de este proyecto para poder ejectuar pruebas mas adelante:_
 ```
 git clone https://github.com/augustodelg/TpFinalPython.git
 ```
-Para poder ejecutar dicha aplicación, es necesario contar con distintas herramientas que se irán explicando a continuación. Éstas herramientas son el intérprete de python3, junto con una librería y modulo externo (Pattern y PySimpleGUI),que nos ayudarán a obtener el tipo gramatical de una palabra, y por otro lado desarrollar la interfaz gràfica, respectivamente._
+_Para poder ejecutar dicha aplicación, es necesario contar con distintas herramientas que se irán explicando a continuación. Éstas herramientas son el intérprete de python3, junto con una librería y modulo externo (Pattern y PySimpleGUI),que nos ayudarán a obtener el tipo gramatical de una palabra, y por otro lado desarrollar la interfaz gràfica, respectivamente._
 
 ### Instalación 🔧
 
