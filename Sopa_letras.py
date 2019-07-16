@@ -49,6 +49,7 @@ def interpretar_reporte(fuente,fuente2):
     sg.Popup(tx,font=fuente,title='Reporte',)
 
 def mostrar_sugerencias():
+    ''' Instrucciones de como configurar la sopa'''
     sg.Popup('''
         1- ELEGIR EL COLOR ,CON QUE SE MOSTRARAN LOS DISTITNTOS TIPOS DE PALABRAS .
         2- ELEGIR LA CANTIDAD DE CADA TIPO DE PALABRA QUE SE VAN A INGRESAR (opcional).
@@ -59,6 +60,7 @@ def mostrar_sugerencias():
         7- APRETAR EN "JUGAR" PARA INICIAR LA SOPA, SINO EN "CANCELAR" PARA SALIR.  ''',font="Trebuchet 10",no_titlebar=True,grab_anywhere=True)
 
 def elimin_palabra(palabra,dic):
+    ''' Elimina una palabra del diccionario de categoria:palabras que se utiliza para generar la sopa'''
     for tipo in dic.keys():
         for palabra_act in dic[tipo]:
             if palabra in palabra_act :
@@ -67,6 +69,7 @@ def elimin_palabra(palabra,dic):
     return dic
 
 def mostrar_sugerencias_sopa():
+        ''' Instrucciones de como jugar a la sopa '''
         sg.Popup('''
                     1- CLIKEAR SOBRE LAS LETRAS QUE CREEMOS COMPONEN ALGUNA DE LAS PALABRAS BUSCADAS. CUANDO ESTEMOS SEGUROS QUE HEMOS FINALIZADOS, APRETAREMOS "CONTROLAR". 
                     2-"CONTROLAR" VERIFICARA EL RESULTADO DEL JUEGO. ES DECIR, SI SE MARCARON LAS PALABRAS CORRECTAMENTE Y, ADEMAS, SI SE HAN MARCADO LETRAS QUE NO CORRESPONDEN A NINGUNA PALABRA.
@@ -74,6 +77,7 @@ def mostrar_sugerencias_sopa():
                     4- EL JUEGO TERMINARÁ SI EL PARTICIPANTE HA GANADO, O HA UTILIZADO SUS TRES INTENTOS. FINALMENTE SE MOSTRARÁ EL RESULTADO FINAL DE LA ACTIVIDAD ''',no_titlebar=True,grab_anywhere=True)
 
 def color_temperatura(num):
+    ''' Filtra la temperatura  '''
     resul=""
     if(num <15):
         resul="blue"
@@ -91,6 +95,7 @@ def leer_json():
 
 
 #----------------------------CONFIGURACION---------------------------
+''' Dos columnas que permite la configracion integra de la sopa de letras. Desde su fuente , hasta el colo de cada palabra respecto de su clasificacion ,etc '''
 
 temperatura=leer_json()
 color_fondo=color_temperatura(temperatura)
@@ -190,6 +195,7 @@ while True:
 # -------------------------------------------------------------------
 
 # ------------------------ VAR --------------------------------------
+'''  variabes importantes a la hora de generar la sopa de letras'''
 
 cant_palabras={"Sustantivos":0,"Verbos":0 ,"Adjetivos":0}#DESPUES DE FILTRAR SE CUANTOS HAY REALMENTE
 
@@ -209,6 +215,7 @@ if(nume_palabras>12):
 # ------------------------ VAR --------------------------------------
 
 #------------------------------PREPARACION PARTE GRAFICA------------------------
+''' Layouts de las columnas de la sopa de letras, y configuracion de si se desea tomar las ayudas o no '''
 
 sin_ayuda = [
             [sg.Image(DECORACION,size=(100,100))],
@@ -226,7 +233,7 @@ sopa = [
         [sg.T(" "  * 30)],
         [sg.Button("Controlar",font="Trebuchet 10",size=(20,3))],
         ]
-
+''' Si deseamos usar las ayudas agregamos a la lista del layout de sin_ayuda , la ayuda '''
 if (sg.PopupYesNo("QUIERE LAS AYUDAS?",no_titlebar=True)=="Yes"):
     sin_ayuda.append([sg.Text("INFORMACION DE AYUDA:",font="Trebuchet 10")],)
     texto=""
@@ -283,6 +290,8 @@ Fuente=configuracion["fuente"]
 
 #-------------------------ESCRIBIR PALABRA-----------------------------------------------
 
+''' Genera dos posiciones aleatorias respectiva de la cantidad de ubicaciones que tenemos en la matriz
+de la sopa , en este paso distribuimo solamente las palabras'''
 
 
 lista_coor_palabras=[]#lista de cordenadas de cada palabra
@@ -333,6 +342,7 @@ for tipo in palabras.keys():
                     Y=random.randint(0,cant_ubicaciones)
 
 #-----------------------LETRAS ALEATOREAS--------------------------------------------------------------
+''' Distribuimos letras generadas aleatoriamente en lugares en los que no tenemos una letra de alguna palabra '''
 
 for row in range(cant_ubicaciones):
     for col in range(cant_ubicaciones):
@@ -347,7 +357,9 @@ for row in range(cant_ubicaciones):
             if(matriz3[row][col] == "white"):
                     g.DrawText(random.choice(letra) , (row * BOX_SIZE + 18, col * BOX_SIZE + 17),font=Fuente)
 
-#-------------------------ESCRIBIR PALABRA-----------------------------------------------
+#-------------------------LETRAS ALEATOREAS-----------------------------------------------
+
+#----------------Interpretaciones de de la ventana de la sopa----------------------------
 
 intento=3
 while True:            
