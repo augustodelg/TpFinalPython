@@ -73,9 +73,27 @@ def mostrar_sugerencias_sopa():
                     3- SOLO SE PUEDE CONTROLAR TRES VECES. DESPUES DE ELLO, SE MOSTRARAN LAS PALABRAS QUE HAN QUEDADO SIN MARCAR.
                     4- EL JUEGO TERMINARÁ SI EL PARTICIPANTE HA GANADO, O HA UTILIZADO SUS TRES INTENTOS. FINALMENTE SE MOSTRARÁ EL RESULTADO FINAL DE LA ACTIVIDAD ''',no_titlebar=True,grab_anywhere=True)
 
+def color_temperatura(num):
+    resul=""
+    if(num <15):
+        resul="blue"
+    if(num>15 and num<25):
+        resul="orange"
+    if (num > 25):
+        resul="red"
+    return resul
+
+def leer_json():
+    with open ("./OFICINAS/datos-oficinas.json","r") as jsonFile:
+        data = json.load(jsonFile)
+        temp = data["oficina1"][0]["temp"]
+        return temp
 
 
 #----------------------------CONFIGURACION---------------------------
+
+temperatura=leer_json()
+color_fondo=color_temperatura(temperatura)
 
 config1 =  [
             [sg.T(" "),sg.Image(LOGO)],
@@ -111,9 +129,7 @@ config = [
          ]
 
 palabras={"sustantivos":[],"verbos":[],"adjetivos":[]}
-
-#windowC = sg.Window("SOPA DE LETRAS",config,disable_close=True).Finalize()
-windowC = sg.Window("SOPA DE LETRAS",disable_close=True).Layout(config)
+windowC = sg.Window("SOPA DE LETRAS",disable_close=True,background_color=color_fondo).Layout(config)
 lista_palabras=[]
 lbox=windowC.Element("lbox")
 while True:
@@ -232,7 +248,7 @@ layout = [
 
 
 
-window = sg.Window("SOPA DE LETRAS").Layout(layout).Finalize()
+window = sg.Window("SOPA DE LETRAS",background_color=color_fondo).Layout(layout).Finalize()
 
 
 
