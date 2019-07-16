@@ -66,6 +66,13 @@ def elimin_palabra(palabra,dic):
                 break
     return dic
 
+def mostrar_sugerencias_sopa():
+        sg.Popup('''
+                    1- CLIKEAR SOBRE LAS LETRAS QUE CREEMOS COMPONEN ALGUNA DE LAS PALABRAS BUSCADAS. CUANDO ESTEMOS SEGUROS QUE HEMOS FINALIZADOS, APRETAREMOS "CONTROLAR". 
+                    2-"CONTROLAR" VERIFICARA EL RESULTADO DEL JUEGO. ES DECIR, SI SE MARCARON LAS PALABRAS CORRECTAMENTE Y, ADEMAS, SI SE HAN MARCADO LETRAS QUE NO CORRESPONDEN A NINGUNA PALABRA.
+                    3- SOLO SE PUEDE CONTROLAR TRES VECES. DESPUES DE ELLO, SE MOSTRARAN LAS PALABRAS QUE HAN QUEDADO SIN MARCAR.
+                    4- EL JUEGO TERMINARÁ SI EL PARTICIPANTE HA GANADO, O HA UTILIZADO SUS TRES INTENTOS. FINALMENTE SE MOSTRARÁ EL RESULTADO FINAL DE LA ACTIVIDAD ''',no_titlebar=True,grab_anywhere=True)
+
 
 
 #----------------------------CONFIGURACION---------------------------
@@ -76,16 +83,16 @@ config1 =  [
             [sg.T(" "  * 30),sg.InputText("",size=(30, 12),key="palabra_agregar"),sg.Button("Agregar",font="Trebuchet 10",size=(10,1))],
             [sg.T(" "  * 30)],
             [sg.T(" " * 20 ),sg.Listbox(values=[], size=(25, 5),key="lbox",font="Trebuchet"),sg.Button("Eliminar",font="Trebuchet 12",size=(10,5)),sg.T(" "  * 2)],
-            [sg.T(" "  * 30)],
+            [sg.T(" "  * 45),sg.Button("JUGADA RAPIDA",font="Trebuchet 10",key="Jugada rapida")],
             [sg.T(" "  * 30),sg.RButton("",button_color=sg.TRANSPARENT_BUTTON,image_filename=JUGAR, image_subsample=2, border_width=0,key="jugar"),sg.T(" "  * 2),],
             [sg.T(" "  * 30)],
             ]
 
 config2= [	[sg.T(" "  * 30)],
-            [sg.T(" "  * 50),sg.T("GUIA DE CONFIGURACION",font="Trebuchet 9"),sg.T(" "),sg.RButton("",image_filename=SIGNO,button_color=sg.TRANSPARENT_BUTTON,size=(2,2),auto_size_button=True,key='Guia')],
+            [sg.T(" "  * 50),sg.T("GUIA DE CONFIGURACION",font="Trebuchet 9"),sg.RButton("",image_filename=SIGNO,button_color=sg.TRANSPARENT_BUTTON,size=(2,2),auto_size_button=True,key='Guia')],
             [sg.T(" "  * 30)],
             [sg.T(" "  * 35),sg.ColorChooserButton("COLOR",key="color_sustantivos"),sg.Text(" "*4,background_color='white',key="cuadrado_sustantivos"),sg.Text("SUSTANTIVOS    -",font="Trebuchet"),sg.Text("CANT:",font="Trebuchet"), sg.InputCombo([0,1,2,3,4,5,6],key="cant_sustantivos",font="Trebuchet 11",readonly=True)],
-            [sg.T(" "  * 35),sg.ColorChooserButton("COLOR",key="color_verbos"),sg.Text(" "*4,key="cuadrado_verbos",background_color="white"),sg.Text("VERBO    -",font="Trebuchet"),sg.Text("CANT:",font="Trebuchet"), sg.InputCombo([0,1,2,3,4,5,6],key="cant_verbos",font="Trebuchet 11",readonly=True)],
+            [sg.T(" "  * 35),sg.ColorChooserButton("COLOR",key="color_verbos"),sg.Text(" "*4,key="cuadrado_verbos",background_color="white"),sg.Text("VERBOS    -",font="Trebuchet"),sg.Text("CANT:",font="Trebuchet"), sg.InputCombo([0,1,2,3,4,5,6],key="cant_verbos",font="Trebuchet 11",readonly=True)],
             [sg.T(" "  * 35),sg.ColorChooserButton("COLOR",key="color_adjetivos"),sg.Text(" "*4,background_color="white",key="cuadrado_adjetivos"),sg.Text("ADJETIVOS    -",font="Trebuchet"),sg.Text("CANT:",font="Trebuchet"), sg.InputCombo([0,1,2,3,4,5,6],key="cant_adjetivos",font="Trebuchet 11",readonly=True)],
             [sg.T(" "  * 30)],
             [sg.T(" "  * 25),sg.Text("ORIENTACION DE LAS PALABRAS:",font="Trebuchet"), sg.InputCombo(["HORIZONTAL","VERTICAL"],key="orientacion",font="Trebuchet 10",size=(17,5),readonly=True)],
@@ -118,6 +125,17 @@ while True:
             windowC.Element("cuadrado_adjetivos").Update(background_color=configuracion["color_adjetivos"])
         if configuracion["color_sustantivos"]!= "":#Controlamos si no le ingresamos ningun color a los sustantivos 
             windowC.Element("cuadrado_sustantivos").Update(background_color=configuracion["color_sustantivos"])
+        if (eventC=="Jugada rapida"):#Preparamos una configuracion predeterminada y lanzamos el juego
+            palabras["sustantivos"].append(["perro"," Variedad doméstica del lobo de muchas y diversas razas, compañero del hombre desde tiempos prehistóricos."])
+            palabras["sustantivos"].append(["cuaderno","conjunto de hojas donde se lleva la cuenta de una determinada actividad."])
+            palabras["verbos"].append(["correr","Desplazarse rápidamente sobre el suelo mediante el movimiento alternado de las piernas o de las patas."])
+            palabras["verbos"].append(["saltar","Impulsarse o lanzarse al aire."])
+            palabras["adjetivos"].append(["lindo","Que es agradable a la vista o al ánimo, con un toque de ternura"])
+            configuracion["color_sustantivos"]="#61ff9c"
+            configuracion["color_verbos"]="#d9ff00"
+            configuracion["color_adjetivos"]="#8900ff"
+            windowC.Close()
+            break
         if(eventC=="Guia"):
             mostrar_sugerencias()
         if(eventC=="Agregar"):
@@ -178,7 +196,8 @@ if(nume_palabras>12):
 
 sin_ayuda = [
             [sg.Image(DECORACION,size=(100,100))],
-            [sg.T('Intentos : '),sg.T('3',key='Intentos')],
+            [sg.T("SUGERENCIA",font=configuracion["fuente"]),sg.RButton("",image_filename=SIGNO,button_color=sg.TRANSPARENT_BUTTON,size=(2,2),auto_size_button=True,key='Sugerencia')],
+            [sg.T('Intentos : ',font=configuracion["fuente"]),sg.T('3',font=configuracion["fuente"],key='Intentos',)],
             [sg.Text("Sustantivos:",text_color=configuracion["color_sustantivos"],font=configuracion["fuente"],background_color="#E6E6E6"),sg.Text(len(palabras["sustantivos"]),font="Trebuchet 10")],
             [sg.Text("Verbos:",text_color=configuracion["color_verbos"],font=configuracion["fuente"],background_color="#E6E6E6"),sg.Text(len(palabras["verbos"]),font="Trebuchet 10")],
             [sg.Text("Adjetivos:",text_color=configuracion["color_adjetivos"],font=configuracion["fuente"],background_color="#E6E6E6"),sg.Text(len(palabras["adjetivos"]),font="Trebuchet 10")],
@@ -205,6 +224,8 @@ if (sg.PopupYesNo("QUIERE LAS AYUDAS?",no_titlebar=True)=="Yes"):
     sin_ayuda.append([sg.Multiline(texto, size=(30,10),key="info_ayuda",font=configuracion["fuente"],enter_submits=True,disabled=True)],)
     sin_ayuda.append([sg.T(" "  * 30)])
 
+
+
 layout = [
             [sg.Column(sopa), sg.Column(sin_ayuda,)],
          ]
@@ -212,6 +233,7 @@ layout = [
 
 
 window = sg.Window("SOPA DE LETRAS").Layout(layout).Finalize()
+
 
 
 
@@ -280,7 +302,10 @@ for tipo in palabras.keys():
                         else:
                             letra=letra.lower()
                         g.DrawText(letra , (yI * BOX_SIZE + 18, xI * BOX_SIZE + 17),font=Fuente)
-                        matriz3[yI][xI]=configuracion["color_"+ tipo]
+                        try:
+                            matriz3[yI][xI]=configuracion["color_"+ tipo]
+                        except(IndexError):
+                            continue
                         if(configuracion["orientacion"]== "HORIZONTAL"):
                             yI+=1
                         else:
@@ -308,16 +333,16 @@ for row in range(cant_ubicaciones):
 
 #-------------------------ESCRIBIR PALABRA-----------------------------------------------
 
-
+intento=3
 while True:            
     try:
         event, values = window.Read()
         intentos=window.Element("Intentos")
-        intento=3
         if event is None or event == "Exit":
             break
         mouse = values["graph"]
-
+        if event == "Sugerencia":
+            mostrar_sugerencias_sopa()
         if event == "graph":
             if mouse == (None, None):
                 continue
@@ -333,9 +358,12 @@ while True:
                 g.TKCanvas.itemconfig(matriz[box_x][box_y], fill="white")
                 matriz2[box_x][box_y] = False
         elif (event=="Controlar"):#MODIFICA ACAAAA
+             intento=int(intento)-1
+             intentos.Update(intento)
              if (intento>0):
-                 matriz2_aux=matriz2
-                 matriz_aux=matriz
+                 gano=True
+                 matriz2_aux=matriz2.copy()
+                 matriz_aux=matriz3.copy()
                  for cor in lista_coor_palabras:
                     y=cor[0]
                     for x in cor[1]:
@@ -344,10 +372,26 @@ while True:
                                 g.TKCanvas.itemconfig(matriz[x][y], fill="green")
                             else:
                                 g.TKCanvas.itemconfig(matriz[y][x], fill="green")
-                 matriz2=matriz2_aux
-                 matriz=matriz_aux
+                        else:
+                            gano=False
+                 sg.Popup('Lo marcado en verde son tus aciertos!')
+                 matriz2=matriz2_aux.copy()
+                 matriz3=matriz_aux.copy()
+                 if (gano):
+                     sg.Popup("GANASTE !",title="Resultado" ,text_color="green",font=configuracion["fuente"])
+                     break
+
+                 for cor in lista_coor_palabras:
+                    y=cor[0]
+                    for x in cor[1]:
+                        if  (matriz2[x][y]):
+                            if(configuracion["orientacion"]== "HORIZONTAL"):
+                                g.TKCanvas.itemconfig(matriz[x][y], fill=matriz3[x][y])
+                            else:
+                                g.TKCanvas.itemconfig(matriz[y][x], fill=matriz3[x][y])
                         
              else:
+                 perdio=True
                  for cor in lista_coor_palabras:
                     y=cor[0]
                     for x in cor[1]:
@@ -356,19 +400,14 @@ while True:
                                 g.TKCanvas.itemconfig(matriz[x][y], fill="red")
                             else:
                                 g.TKCanvas.itemconfig(matriz[y][x], fill="red")
+                        else: pedrio=False
+                 if (perdio):
+                            sg.Popup("PERDISTE :c",title="Resultado" ,text_color="red",font=configuracion["fuente"])
+                            break
                  intento-= intento
                  intentos.Update(intento)
-                 sg.Popup("TUS PALABRAS/LETRAS FALTANTES VAN A SER MARCADAS EN GRIS!")
-                 '''for cor in lista_coor_palabras:
-                    y=cor[0]
-                    for x in cor[1]:
-                        if  not(matriz2[x][y]):
-                            if(configuracion["orientacion"]== "HORIZONTAL"):
-                                g.TKCanvas.itemconfig(matriz[x][y], fill="#C5C6C5")
-                            else:
-                                g.TKCanvas.itemconfig(matriz[y][x], fill="#C5C6C5")
-                 if values["Intentos"] == "0":
-                    break'''
+                 
+
 
     except(IndexError):
         continue
